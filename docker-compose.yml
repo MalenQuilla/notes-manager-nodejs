@@ -1,0 +1,77 @@
+services:
+  redisdb:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli" ,"ping", "-p", "localhost" ]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - .docker/data/redis:/data
+    restart: unless-stopped
+    networks:
+      - notes-manager-network
+
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: notes
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - .docker/data/mysqldb:/data/mysqldb
+    restart: unless-stopped
+    networks:
+      - notes-manager-network
+
+  app:
+    build: .
+    image: notes-manager
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      redisdb:
+        condition: service_healthy
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      - notes-manager-network
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      app:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - notes-manager-network
+
+
+volumes:
+  mysqldb:
+    driver: local
+  redisdb:
+    driver: local
+
+networks:
+  notes-manager-network:
+    name: notes-manager-network
