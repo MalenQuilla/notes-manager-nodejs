@@ -5,7 +5,7 @@ import StatusCodes, {ReasonPhrases} from 'http-status-codes';
 class NoteController {
     createNote = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.createNote(res.locals.userId, req.body);
+            const data = await NoteService.createNote(req.user?.id, req.body);
 
             res.status(StatusCodes.CREATED).send({
                 statusCode: StatusCodes.CREATED,
@@ -19,7 +19,7 @@ class NoteController {
 
     updateNote = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.updateNote(res.locals.userId, Number(req.params.id), req.body);
+            const data = await NoteService.updateNote(req.user?.id, Number(req.params.id), req.body);
 
             res.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
@@ -31,9 +31,9 @@ class NoteController {
         }
     };
 
-    findAllNotes = async (_: Request, res: Response, next: NextFunction) => {
+    findAllNotes = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.findAllNotes(res.locals.userId);
+            const data = await NoteService.findAllNotes(req.user?.id);
 
             res.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
@@ -47,7 +47,7 @@ class NoteController {
 
     findNote = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.findNote(res.locals.userId, Number(req.params.id));
+            const data = await NoteService.findNote(req.user?.id, Number(req.params.id));
 
             res.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
@@ -61,7 +61,7 @@ class NoteController {
 
     deleteNote = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.deleteNote(res.locals.userId, Number(req.params.id));
+            const data = await NoteService.deleteNote(req.user?.id, Number(req.params.id));
 
             res.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
@@ -75,7 +75,7 @@ class NoteController {
 
     restoreNote = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await NoteService.restoreNote(res.locals.userId, Number(req.params.id));
+            const data = await NoteService.restoreNote(req.user?.id, Number(req.params.id));
 
             res.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,

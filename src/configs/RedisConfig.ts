@@ -2,9 +2,9 @@ import type {RedisClientType} from 'redis';
 import {createClient} from 'redis';
 
 class RedisConfig {
-    redisClient?: RedisClientType;
+    private redisClient!: RedisClientType;
 
-    async init(): Promise<void> {
+    private async init(): Promise<void> {
         this.redisClient = createClient({
             url: 'redis://redisdb:6379'
         });
@@ -17,20 +17,9 @@ class RedisConfig {
         await this.redisClient.connect();
     }
 
-    async disconnect(): Promise<void> {
-        if (this.redisClient) {
-            await this.redisClient.quit();
-            this.redisClient = undefined;
-        }
-        console.log('Redis disconnected');
-    }
-
     async getClient(): Promise<RedisClientType> {
         if (!this.redisClient)
-            this.init().then(() => console.log('RedisConfig: Redis connected'));
-
-        if (!this.redisClient)
-            throw new Error('RedisConfig: Redis connection failed');
+            await this.init();
 
         return this.redisClient;
     }

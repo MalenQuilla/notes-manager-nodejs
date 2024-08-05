@@ -7,11 +7,11 @@ import JwtUtil from '../utils/JwtUtil';
 import UserStatus from '../const/UserStatus';
 import RedisConfig from '../configs/RedisConfig';
 import {v4 as uuidV4} from 'uuid';
-import transporter from '../configs/MailerConfig';
 import ActivationMail from '../const/ActivationMail';
 import UserDTO from '../dto/UserDTO';
 import DTOMapper from '../utils/DTOMapper';
 import ConfigParser from '../utils/ConfigParser';
+import MailerConfig from '../configs/MailerConfig';
 
 class AccountService {
     signUp = async (payload: UserDTO): Promise<UserDTO> => {
@@ -74,8 +74,13 @@ class AccountService {
         await redisClient.expire(key, ConfigParser.KEY_EXP);
         const activationLink: string = `${domain}/api/v1/account/${userID}/${activationCode}`;
 
-        const info = transporter.sendMail(ActivationMail(user.lastname, user.email, user.username, activationLink));
-        console.log("AccountService: activation mail: ", info);
+        const transporter = MailerConfig.getTransporter();
+        transporter.sendMail(
+            ActivationMail(user.lastname, user.email, user.username, activationLink),
+            (error, info) => {
+                error && console.error('NoteService: alarm: ', error);
+                info && console.log('NoteService: alarm: ', info);
+            });
     };
 
     activateAccount = async (userID: number, activationCode: string): Promise<void> => {

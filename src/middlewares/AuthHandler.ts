@@ -25,7 +25,7 @@ class AuthHandler {
             if (!user || !(roles.includes(user.role)))
                 throw new HTTPException(StatusCodes.FORBIDDEN, ReasonPhrases.FORBIDDEN);
 
-            res.locals.userId = userId;
+            req.user = user;
 
             next();
         };

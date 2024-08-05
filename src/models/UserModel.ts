@@ -1,6 +1,6 @@
-import {AutoIncrement, Column, DataType, HasMany, IsEmail, Model, PrimaryKey, Table} from 'sequelize-typescript';
+import {Column, DataType, HasMany, IsEmail, Model, Table} from 'sequelize-typescript';
 import UserStatus from '../const/UserStatus';
-import sequelize from '../configs/DBConfig';
+import DBConfig from '../configs/DBConfig';
 import UserRole from '../const/UserRole';
 import bcrypt from 'bcrypt';
 import config from '../utils/ConfigParser';
@@ -62,7 +62,7 @@ class UserModel extends Model {
 
     @HasMany(() => NoteModel, {
         foreignKey: 'userId',
-        sourceKey: 'id'
+        sourceKey: 'id',
     })
     notes!: NoteModel[];
 
@@ -71,6 +71,7 @@ class UserModel extends Model {
     };
 }
 
+const sequelize = DBConfig.getSequelize();
 sequelize.addModels([UserModel]);
 
 (async () => {

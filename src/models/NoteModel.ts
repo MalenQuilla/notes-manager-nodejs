@@ -1,5 +1,5 @@
 import {Column, DataType, Model, Table} from 'sequelize-typescript';
-import sequelize from '../configs/DBConfig';
+import DBConfig from '../configs/DBConfig';
 import NoteStatus from '../const/NoteStatus';
 
 @Table
@@ -39,6 +39,7 @@ class NoteModel extends Model {
     userId!: number;
 }
 
+const sequelize = DBConfig.getSequelize();
 sequelize.addModels([NoteModel]);
 
 (async () => {
