@@ -1,6 +1,5 @@
 import express, {Express} from 'express';
 import helmet from 'helmet';
-// import * as xss from "xss-clean";
 import cors from 'cors';
 import ExceptionParser from './middlewares/ExceptionParser';
 import ExceptionHandler from './middlewares/ExceptionHandler';
@@ -19,10 +18,11 @@ function bootstrap(app: Express): void {
 
     app.use(express.urlencoded({extended: true}));
 
-    // app.use(xss());
-
-    app.use(cors());
-    app.options('*', cors());
+    const corsOptions = {
+        origin: config.DOMAIN_NAME,
+    };
+    app.use(cors(corsOptions));
+    app.options('*', cors(corsOptions));
 
     app.use('/api/v1', router);
 

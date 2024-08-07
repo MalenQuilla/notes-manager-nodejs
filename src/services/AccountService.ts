@@ -37,7 +37,7 @@ class AccountService {
             throw new HTTPException(StatusCodes.UNAUTHORIZED, HTTPMessage.INCORRECT_USERNAME_OR_PASSWORD);
 
         if (user.status === UserStatus.INACTIVE)
-            throw new HTTPException(StatusCodes.BAD_GATEWAY, HTTPMessage.ACTIVATE_REQUIRED);
+            throw new HTTPException(StatusCodes.BAD_REQUEST, HTTPMessage.ACTIVATE_REQUIRED);
 
         const refreshToken = await this.getRefreshToken(user);
         const accessToken = JwtUtil.generateAccessToken(user.id);

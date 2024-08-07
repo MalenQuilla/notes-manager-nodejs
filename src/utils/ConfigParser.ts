@@ -17,6 +17,7 @@ interface ENV {
     KEY_EXP: number | undefined;
     MAILER: string | undefined;
     MAILER_PW: string | undefined;
+    DOMAIN_NAME: string | undefined;
 }
 
 interface Config {
@@ -32,6 +33,7 @@ interface Config {
     KEY_EXP: number;
     MAILER: string;
     MAILER_PW: string;
+    DOMAIN_NAME: string;
 }
 
 const getENV = (): ENV => {
@@ -52,6 +54,7 @@ const getENV = (): ENV => {
         KEY_EXP: process.env.KEY_EXP ? Number(process.env.KEY_EXP) : undefined,
         MAILER: process.env.MAILER,
         MAILER_PW: process.env.MAILER_PW,
+        DOMAIN_NAME: process.env.DOMAIN_NAME,
     };
 };
 

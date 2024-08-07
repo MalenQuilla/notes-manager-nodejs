@@ -7,13 +7,15 @@ help() {
 build() {
   # Execute the Docker build command
   docker build -t notes-manager -f Dockerfile .
-
   npm install
+
+  start
 }
 
 rebuild() {
   stop
   docker rmi -f notes-manager
+
   build
 }
 

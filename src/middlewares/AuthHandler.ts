@@ -10,7 +10,7 @@ import TokenType from '../const/TokenType';
 class AuthHandler {
     permit = (roles: UserRole[]) => {
         return async (req: Request, res: Response, next: NextFunction) => {
-            let accessToken = req.header('Authorization') || '';
+            const accessToken = req.header('Authorization') || '';
             if (!accessToken.startsWith('Bearer '))
                 throw new HTTPException(StatusCodes.UNAUTHORIZED, ReasonPhrases.UNAUTHORIZED);
 

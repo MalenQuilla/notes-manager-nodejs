@@ -1,6 +1,7 @@
 import AccountService from '../services/AccountService';
 import {NextFunction, Request, Response} from 'express';
 import StatusCodes, {ReasonPhrases} from 'http-status-codes';
+import config from '../utils/ConfigParser';
 
 class AccountController {
     async signUp(request: Request, response: Response, next: NextFunction): Promise<void> {
@@ -50,7 +51,7 @@ class AccountController {
             // const data = await AccountService.requestActivation(
             //     `${request.protocol}://${request.get('host')}`, Number(request.params.id));
 
-            const data = await AccountService.requestActivation('http://notes.manager.com', Number(request.params.id));
+            const data = await AccountService.requestActivation(config.DOMAIN_NAME, Number(request.params.id));
 
             response.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
