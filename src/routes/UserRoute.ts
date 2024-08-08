@@ -24,7 +24,7 @@ userRouter.post('/', AuthHandler.permitAdmin,
               UserController.deleteUser)
 
           .post('/:id', AuthHandler.permitAdmin,
-              UserController.activeUser)
+              UserController.activateUser)
 
           .delete('/:id/restrict', AuthHandler.permitAdmin,
               UserController.restrictUser);

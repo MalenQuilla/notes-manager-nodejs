@@ -6,7 +6,7 @@ class RedisConfig {
 
     private async init(): Promise<void> {
         this.redisClient = createClient({
-            url: 'redis://redisdb:6379'
+            url: 'redis://redisdb:6380'
         });
         this.redisClient.on('error',
             err => console.error(`RedisConfig: Redis error: ${err}`));

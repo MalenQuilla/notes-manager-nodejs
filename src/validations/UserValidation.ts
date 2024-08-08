@@ -21,7 +21,10 @@ class UserValidation {
 
     createUser = Joi.object(Object.fromEntries(Object.entries(this.baseSchema)
                                                      .map(([key, value]) => [
-                                                         key, ['role', 'status'].includes(key) ? value : value.required(),
+                                                         key,
+                                                         ['role', 'status', 'firstname'].includes(key)
+                                                             ? value
+                                                             : value.required(),
                                                      ])),
     );
 

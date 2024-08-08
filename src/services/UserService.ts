@@ -56,7 +56,7 @@ class UserService {
         await user.save();
     };
 
-    activeUser = async (id: number): Promise<void> => {
+    activateUser = async (id: number): Promise<void> => {
         const user = await UserModel.findOne({
             where: {id: id, status: UserStatus.INACTIVE},
         });

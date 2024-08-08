@@ -492,7 +492,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserListRequest"
+                "$ref": "#/components/schemas/UserPaginationRequest"
               }
             }
           }
@@ -742,7 +742,7 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
+      "Authentication": {
         "type": "http",
         "scheme": "Bearer",
         "bearerFormat": "JWT"
@@ -760,9 +760,15 @@
           },
           "email": {
             "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
           }
         },
-        "required": ["username", "password", "email"]
+        "required": ["username", "password", "email", "lastname"]
       },
       "SignInRequest": {
         "type": "object",
@@ -791,11 +797,15 @@
           "title": {
             "type": "string"
           },
-          "content": {
+          "description": {
             "type": "string"
+          },
+          "schedule":  {
+            "type": "string",
+            "description": "schedule time to alarm"
           }
         },
-        "required": ["title", "content"]
+        "required": ["title", "description"]
       },
       "UserRequest": {
         "type": "object",
@@ -808,11 +818,25 @@
           },
           "password": {
             "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "\"0\" for user, \"1\" for admin"
+          },
+          "role": {
+            "type": "string",
+            "description": "\"0\" for inactive, \"1\" for active, \"2\" for restricted"
           }
         },
-        "required": ["username", "email", "password"]
+        "required": ["username", "email", "password", "lastname"]
       },
-      "UserListRequest": {
+      "UserPaginationRequest": {
         "type": "object",
         "properties": {
           "offset": {
@@ -841,7 +865,7 @@
   },
   "security": [
     {
-      "bearerAuth": []
+      "Authentication": []
     }
   ]
 }

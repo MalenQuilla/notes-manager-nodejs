@@ -45,9 +45,9 @@ class UserController {
         }
     };
 
-    async activeUser(request: Request, response: Response, next: NextFunction): Promise<void> {
+    async activateUser(request: Request, response: Response, next: NextFunction): Promise<void> {
         try {
-            const data = await UserService.activeUser(Number(request.params.id));
+            const data = await UserService.activateUser(Number(request.params.id));
 
             response.status(StatusCodes.OK).json({
                 status: StatusCodes.OK,
