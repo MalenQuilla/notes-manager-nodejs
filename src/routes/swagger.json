@@ -858,6 +858,9 @@
           },
           "data": {
             "type": "object"
+          },
+          "error": {
+            "type": "string"
           }
         }
       }
