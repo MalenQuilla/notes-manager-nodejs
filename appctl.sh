@@ -8,6 +8,7 @@ build() {
   # Execute the Docker build command
   docker build -t notes-manager -f Dockerfile .
   npm install
+  docker images
 
   start
 }
@@ -21,6 +22,7 @@ rebuild() {
 
 start() {
   docker compose -f docker-compose.yml up -d --remove-orphans
+  docker ps -a
 }
 
 stop() {
